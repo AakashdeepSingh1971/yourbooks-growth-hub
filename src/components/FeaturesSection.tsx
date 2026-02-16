@@ -11,6 +11,7 @@ import {
 const featureGroups = [
   {
     title: "Sales Management",
+    color: "bg-primary/10 text-primary",
     items: [
       { icon: FileText, label: "Quotations" },
       { icon: ShoppingCart, label: "Sales Orders" },
@@ -20,6 +21,7 @@ const featureGroups = [
   },
   {
     title: "Purchase Management",
+    color: "bg-accent/10 text-accent",
     items: [
       { icon: ClipboardList, label: "Purchase Orders" },
       { icon: PackageSearch, label: "Purchase Invoices" },
@@ -29,6 +31,7 @@ const featureGroups = [
   },
   {
     title: "GST & Compliance",
+    color: "bg-destructive/10 text-destructive",
     items: [
       { icon: Calculator, label: "ITC Tracking" },
       { icon: FileCheck, label: "GSTR1, GSTR3B, GSTR9" },
@@ -40,6 +43,7 @@ const featureGroups = [
   },
   {
     title: "Inventory Management",
+    color: "bg-primary/10 text-primary",
     items: [
       { icon: Warehouse, label: "Store Management" },
       { icon: Layers, label: "Category" },
@@ -50,6 +54,7 @@ const featureGroups = [
   },
   {
     title: "Banking",
+    color: "bg-accent/10 text-accent",
     items: [
       { icon: Landmark, label: "Bank Accounts" },
       { icon: Upload, label: "Import Statements" },
@@ -58,6 +63,7 @@ const featureGroups = [
   },
   {
     title: "Reports",
+    color: "bg-primary/10 text-primary",
     items: [
       { icon: BookOpenCheck, label: "Ledger" },
       { icon: TrendingUp, label: "Profit & Loss" },
@@ -68,6 +74,7 @@ const featureGroups = [
   },
   {
     title: "CRM",
+    color: "bg-accent/10 text-accent",
     items: [
       { icon: UserPlus, label: "Lead Management" },
       { icon: Contact, label: "Client Tracking" },
@@ -79,7 +86,8 @@ const FeaturesSection = () => (
   <section id="features" className="py-20 bg-card">
     <div className="container mx-auto">
       <div className="text-center mb-14">
-        <h2 className="text-3xl md:text-4xl font-bold text-foreground">
+        <span className="text-sm font-semibold text-primary uppercase tracking-wider">Features</span>
+        <h2 className="text-3xl md:text-4xl font-bold text-foreground mt-2">
           Everything You Need to Run Your Business
         </h2>
         <p className="text-muted-foreground mt-3 max-w-2xl mx-auto">
@@ -91,15 +99,17 @@ const FeaturesSection = () => (
         {featureGroups.map((group) => (
           <div
             key={group.title}
-            className="rounded-xl border border-border bg-background p-6 transition-shadow duration-300 hover:card-shadow-hover"
+            className="rounded-xl border border-border bg-background p-6 transition-all duration-300 hover:card-shadow-hover hover:-translate-y-1 group"
           >
-            <h3 className="font-semibold text-foreground mb-4 text-lg">
+            <h3 className="font-semibold text-foreground mb-4 text-lg flex items-center gap-2">
               {group.title}
             </h3>
             <ul className="space-y-3">
               {group.items.map((item) => (
-                <li key={item.label} className="flex items-center gap-2.5 text-sm text-muted-foreground">
-                  <item.icon size={16} className="text-primary shrink-0" />
+                <li key={item.label} className="flex items-center gap-3 text-sm text-muted-foreground group-hover:text-foreground transition-colors">
+                  <span className={`w-8 h-8 rounded-lg ${group.color} flex items-center justify-center shrink-0`}>
+                    <item.icon size={16} />
+                  </span>
                   {item.label}
                 </li>
               ))}

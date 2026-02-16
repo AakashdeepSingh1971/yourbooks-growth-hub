@@ -1,59 +1,74 @@
 import { Button } from "@/components/ui/button";
-import { Shield, Cloud, CheckCircle, IndianRupee } from "lucide-react";
+import { Shield, Cloud, CheckCircle, IndianRupee, ArrowRight } from "lucide-react";
 import dashboardMockup from "@/assets/dashboard-mockup.png";
 
 const badges = [
   { icon: CheckCircle, label: "GST Ready" },
   { icon: Cloud, label: "Cloud-Based" },
-  { icon: Shield, label: "Secure" },
+  { icon: Shield, label: "Bank-Grade Security" },
   { icon: IndianRupee, label: "Made for India" },
 ];
 
 const HeroSection = () => (
-  <section className="relative pt-28 pb-16 md:pt-36 md:pb-24 overflow-hidden bg-section-gradient">
-    <div className="container mx-auto">
-      <div className="grid lg:grid-cols-2 gap-12 items-center">
-        {/* Left */}
-        <div className="space-y-6 animate-fade-up">
-          <h1 className="text-4xl md:text-5xl lg:text-[3.25rem] font-extrabold leading-tight tracking-tight text-foreground">
-            Smart GST Accounting Software for{" "}
-            <span className="text-gradient">Growing Indian Businesses</span>
-          </h1>
-          <p className="text-lg text-muted-foreground max-w-lg">
-            Manage Sales, Purchase, GST, Inventory, Banking & Reports in One
-            Powerful Platform.
-          </p>
-          <div className="flex flex-wrap gap-3 pt-2">
-            <Button size="lg" asChild>
-              <a href="#contact">Start Free Trial</a>
-            </Button>
-            <Button size="lg" variant="outline" asChild>
-              <a href="#contact">Book Free Demo</a>
-            </Button>
-          </div>
-          <div className="flex flex-wrap gap-4 pt-4">
-            {badges.map((b) => (
-              <span
-                key={b.label}
-                className="inline-flex items-center gap-1.5 text-xs font-medium text-muted-foreground bg-card rounded-full px-3 py-1.5 card-shadow"
-              >
-                <b.icon size={14} className="text-primary" />
-                {b.label}
-              </span>
-            ))}
-          </div>
+  <section className="relative pt-28 pb-20 md:pt-40 md:pb-28 overflow-hidden">
+    {/* Background decoration */}
+    <div className="absolute inset-0 bg-section-gradient" />
+    <div className="absolute top-0 right-0 w-[600px] h-[600px] rounded-full bg-primary/5 blur-3xl -translate-y-1/2 translate-x-1/4" />
+    <div className="absolute bottom-0 left-0 w-[400px] h-[400px] rounded-full bg-accent/5 blur-3xl translate-y-1/2 -translate-x-1/4" />
+
+    <div className="container mx-auto relative z-10">
+      {/* Centered badge */}
+      <div className="flex justify-center mb-8 animate-fade-up">
+        <span className="inline-flex items-center gap-2 text-sm font-medium text-primary bg-primary/10 rounded-full px-4 py-2 border border-primary/20">
+          <CheckCircle size={14} />
+          GST Compliant Accounting Software
+        </span>
+      </div>
+
+      {/* Centered headline */}
+      <div className="text-center max-w-3xl mx-auto animate-fade-up">
+        <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight tracking-tight text-foreground">
+          Smart GST Accounting for{" "}
+          <span className="text-gradient">Growing Indian Businesses</span>
+        </h1>
+        <p className="text-lg md:text-xl text-muted-foreground mt-6 max-w-2xl mx-auto">
+          Manage Sales, Purchase, GST, Inventory, Banking & Reports in One
+          Powerful Platform.
+        </p>
+
+        <div className="flex flex-wrap gap-4 pt-8 justify-center">
+          <Button size="lg" className="text-base px-8 h-12" asChild>
+            <a href="#contact">
+              Start Free Trial <ArrowRight size={18} className="ml-2" />
+            </a>
+          </Button>
+          <Button size="lg" variant="outline" className="text-base px-8 h-12" asChild>
+            <a href="#contact">Book Free Demo</a>
+          </Button>
         </div>
 
-        {/* Right – Dashboard mockup */}
-        <div className="animate-fade-up [animation-delay:200ms] opacity-0">
-          <div className="rounded-xl overflow-hidden card-shadow-hover border border-border">
-            <img
-              src={dashboardMockup}
-              alt="YourBooks Dashboard"
-              className="w-full h-auto"
-              loading="lazy"
-            />
-          </div>
+        <div className="flex flex-wrap gap-4 pt-8 justify-center">
+          {badges.map((b) => (
+            <span
+              key={b.label}
+              className="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground"
+            >
+              <b.icon size={16} className="text-primary" />
+              {b.label}
+            </span>
+          ))}
+        </div>
+      </div>
+
+      {/* Dashboard mockup - centered with perspective */}
+      <div className="mt-16 animate-fade-up [animation-delay:300ms] opacity-0 max-w-5xl mx-auto">
+        <div className="rounded-xl overflow-hidden card-shadow-hover border border-border bg-card p-2">
+          <img
+            src={dashboardMockup}
+            alt="YourBooks Dashboard - GST Accounting Software"
+            className="w-full h-auto rounded-lg"
+            loading="lazy"
+          />
         </div>
       </div>
     </div>

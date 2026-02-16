@@ -32,7 +32,8 @@ const WhyChooseSection = () => (
   <section id="why-us" className="py-20 bg-section-gradient">
     <div className="container mx-auto">
       <div className="text-center mb-14">
-        <h2 className="text-3xl md:text-4xl font-bold text-foreground">
+        <span className="text-sm font-semibold text-primary uppercase tracking-wider">Why YourBooks</span>
+        <h2 className="text-3xl md:text-4xl font-bold text-foreground mt-2">
           Why Choose <span className="text-gradient">YourBooks</span>?
         </h2>
         <p className="text-muted-foreground mt-3 max-w-xl mx-auto">
@@ -41,15 +42,17 @@ const WhyChooseSection = () => (
       </div>
 
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
-        {benefits.map((b) => (
+        {benefits.map((b, i) => (
           <div
             key={b.title}
-            className="bg-card rounded-xl p-6 border border-border transition-all duration-300 hover:card-shadow-hover hover:-translate-y-1"
+            className={`bg-card rounded-xl p-6 border border-border transition-all duration-300 hover:card-shadow-hover hover:-translate-y-1 ${
+              i >= 3 ? "sm:col-span-1 lg:col-span-1" : ""
+            }`}
           >
-            <div className="w-11 h-11 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
-              <b.icon size={22} className="text-primary" />
+            <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4">
+              <b.icon size={24} className="text-primary" />
             </div>
-            <h3 className="font-semibold text-foreground mb-2">{b.title}</h3>
+            <h3 className="font-semibold text-foreground mb-2 text-lg">{b.title}</h3>
             <p className="text-sm text-muted-foreground leading-relaxed">{b.desc}</p>
           </div>
         ))}
