@@ -40,6 +40,8 @@ const ContactSection = () => {
     await new Promise((r) => setTimeout(r, 1200));
     setLoading(false);
     setSubmitted(true);
+    await new Promise((r) => setTimeout(r, 1200));
+    setSubmitted(false);
   };
 
   const handleChange = (field: keyof FormData, value: string) => {
