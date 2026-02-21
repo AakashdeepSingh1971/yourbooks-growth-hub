@@ -14,7 +14,7 @@ const Index = () => (
       <FeaturesSection />
       <WhyChooseSection />
       <HowItWorksSection />
-      <ContactSection />
+     
     </main>
     <Footer />
   </>

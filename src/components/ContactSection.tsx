@@ -51,7 +51,7 @@ const ContactSection = () => {
 
   if (submitted) {
     return (
-      <section id="contact" className="py-20 bg-hero-gradient">
+      <section id="contact" className="py-20">
         <div className="container mx-auto flex flex-col items-center justify-center text-center text-primary-foreground py-12">
           <CheckCircle2 size={56} className="mb-4" />
           <h2 className="text-3xl font-bold mb-2">Thank You!</h2>
@@ -64,7 +64,7 @@ const ContactSection = () => {
   }
 
   return (
-    <section id="contact" className="py-20 bg-hero-gradient">
+    <section id="contact" className="py-20">
       <div className="container mx-auto max-w-xl">
         <div className="text-center mb-10">
           <h2 className="text-3xl md:text-4xl font-bold text-primary-foreground">

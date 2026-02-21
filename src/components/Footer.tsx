@@ -1,5 +1,6 @@
 import { Mail, Phone, Facebook, Instagram, Linkedin, Twitter } from "lucide-react";
 import logo from "@/assets/yourbooks-logo.png";
+import ContactSection from "./ContactSection";
 
 const footerLinks = [
   {
@@ -35,6 +36,7 @@ const footerLinks = [
 
 const Footer = () => (
   <div className="bg-primary pt-24 pb-16">
+    <ContactSection />
     <div className="container mx-auto">
       <footer className="bg-foreground text-primary-foreground/70 rounded-2xl overflow-hidden">
         <div className="px-8 md:px-12 pt-12 pb-8">
