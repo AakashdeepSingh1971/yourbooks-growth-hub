@@ -1,8 +1,6 @@
-import Link from "next/link"
-import Image from "next/image"
-import Footer from "../@/components/Footer"
-import Navbar from "../@/components/Navbar"
-import ScrollToTop from "../@/components/ScrollToTop"
+import Footer from "@/components/Footer"
+import Navbar from "@/components/Navbar"
+import ScrollToTop from "@/components/ScrollToTop"
 
 export default function LegalLayout({
     children,
