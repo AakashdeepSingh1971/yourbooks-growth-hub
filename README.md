@@ -72,21 +72,21 @@ NEXT_PUBLIC_BASE_URL=http://localhost:3000
 
 ### **1. Contact Form Submission**
 
-* Users can submit a contact form.
-* **Database first**: Tries to insert into `contact_requests` table.
-* **Fallback**: If DB connection fails, saves request to `contact_fallback.log` in project root.
-* API always returns `success: true` to the client, so user experience is uninterrupted.
+- Users can submit a contact form.
+- **Database first**: Tries to insert into `contact_requests` table.
+- **Fallback**: If DB connection fails, saves request to `contact_fallback.log` in project root.
+- API always returns `success: true` to the client, so user experience is uninterrupted.
 
 **Example log entry**:
 
 ```json
 {
-  "name": "Jane Smith",
-  "email": "janesmith@example.com",
-  "mobile": "9876543210",
-  "message": "Interested in books",
-  "created_at": "2026-02-22T17:01:27.676Z",
-  "error": "Access denied for user 'root'@'localhost' (using password: YES)"
+	"name": "Jane Smith",
+	"email": "janesmith@example.com",
+	"mobile": "9876543210",
+	"message": "Interested in books",
+	"created_at": "2026-02-22T17:01:27.676Z",
+	"error": "Access denied for user 'root'@'localhost' (using password: YES)"
 }
 ```
 
@@ -94,47 +94,42 @@ NEXT_PUBLIC_BASE_URL=http://localhost:3000
 
 ### **2. Admin Dashboard**
 
-* **Route:** `/admin/contact`
+- **Route:** `/admin/contact`
+  - Displays **contact requests** from the DB.
+  - Empty state shown if no requests.
+  - Shows **Name, Email, Mobile, Date** in a responsive table.
 
-  * Displays **contact requests** from the DB.
-  * Empty state shown if no requests.
-  * Shows **Name, Email, Mobile, Date** in a responsive table.
+- **Route:** `/admin/logs`
+  - Displays **fallback logs** when DB insert fails.
+  - Reads from `contact_fallback.log`.
+  - Shows each field including error message and timestamp.
+  - Empty state if no logs.
 
-* **Route:** `/admin/logs`
-
-  * Displays **fallback logs** when DB insert fails.
-  * Reads from `contact_fallback.log`.
-  * Shows each field including error message and timestamp.
-  * Empty state if no logs.
-
-* **Admin Authentication**:
-
-  * JWT stored in `admin_token` cookie.
-  * Middleware (`middleware.ts`) protects `/admin/*` routes.
-  * Redirects unauthorized users to `/login`.
+- **Admin Authentication**:
+  - JWT stored in `admin_token` cookie.
+  - Middleware (`middleware.ts`) protects `/admin/*` routes.
+  - Redirects unauthorized users to `/login`.
 
 ---
 
 ### **3. Logging System**
 
-* **Database fails → Fallback file logging**
+- **Database fails → Fallback file logging**
+  - Contact submissions are saved to `contact_fallback.log` using JSON lines (`\n` separated).
+  - Admins can view logs in `/admin/logs`.
+  - Example log file path: `yourbooks/contact_fallback.log`
 
-  * Contact submissions are saved to `contact_fallback.log` using JSON lines (`\n` separated).
-  * Admins can view logs in `/admin/logs`.
-  * Example log file path: `yourbooks/contact_fallback.log`
-
-* **Audit Logs**
-
-  * Admin actions like login/logout can optionally be logged in `audit_logs` table (via `lib/audit.ts`).
+- **Audit Logs**
+  - Admin actions like login/logout can optionally be logged in `audit_logs` table (via `lib/audit.ts`).
 
 ---
 
 ### **4. Middleware**
 
-* **JWT validation** for admin routes.
-* Checks for `admin_token` cookie.
-* Redirects unauthorized access to `/login`.
-* Public routes (login, reset-password) are ignored by middleware.
+- **JWT validation** for admin routes.
+- Checks for `admin_token` cookie.
+- Redirects unauthorized access to `/login`.
+- Public routes (login, reset-password) are ignored by middleware.
 
 ```ts
 const PUBLIC_ROUTES = ["/login", "/reset-password"];
@@ -144,18 +139,18 @@ const PUBLIC_ROUTES = ["/login", "/reset-password"];
 
 ### **5. Admin Features**
 
-* Login with username/password.
-* Logout button in Navbar.
-* Admin-only links: Dashboard, Logs.
-* Desktop & mobile support with responsive Navbar.
+- Login with username/password.
+- Logout button in Navbar.
+- Admin-only links: Dashboard, Logs.
+- Desktop & mobile support with responsive Navbar.
 
 ---
 
 ### **6. UI / Styling**
 
-* TailwindCSS with custom components in `components/ui`.
-* Tables, buttons, cards, toast notifications, etc.
-* Consistent design for public pages, contact form, and admin dashboard.
+- TailwindCSS with custom components in `components/ui`.
+- Tables, buttons, cards, toast notifications, etc.
+- Consistent design for public pages, contact form, and admin dashboard.
 
 ---
 
@@ -234,12 +229,12 @@ flowchart TD
 
 1. User submits contact form → hits `/api/contact`.
 2. Database check:
-   * ✅ If DB works → save in `contact_requests`.
-   * ❌ If DB fails → save JSON entry in `contact_fallback.log`.
+   - ✅ If DB works → save in `contact_requests`.
+   - ❌ If DB fails → save JSON entry in `contact_fallback.log`.
 3. Always return `success: true` to user → ensures smooth UX.
 4. Admin dashboard:
-   * `/admin/contact` → shows successful DB entries.
-   * `/admin/logs` → shows fallback log entries including errors and timestamps.
+   - `/admin/contact` → shows successful DB entries.
+   - `/admin/logs` → shows fallback log entries including errors and timestamps.
 
 ---
 
@@ -249,23 +244,23 @@ flowchart TD
 
 When the database is unavailable, contact submissions are captured in the fallback log and displayed in the admin logs view:
 
-![Server Logs with data](./server_logs_with_data.png)
+![Server Logs with data](./public/server_logs_with_data.png)
 
 #### Server Logs — Empty State
 
 When no fallback logs exist (database is working normally), the logs page shows an empty state:
 
-![Server Logs empty state](./server_logs_empty.png)
+![Server Logs empty state](./public/server_logs_empty.png)
 
 ---
 
 This README covers:
 
-* Project structure
-* Env setup
-* Logging system & fallback
-* Admin features (contact table + logs)
-* Middleware + JWT
-* UI details
-* Contact submission flow diagram
-* Admin dashboard screenshots
+- Project structure
+- Env setup
+- Logging system & fallback
+- Admin features (contact table + logs)
+- Middleware + JWT
+- UI details
+- Contact submission flow diagram
+- Admin dashboard screenshots
