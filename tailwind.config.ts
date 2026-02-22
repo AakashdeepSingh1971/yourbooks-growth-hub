@@ -5,9 +5,9 @@ const config: Config = {
 
 
   content: [
-    "./app/**/*.{ts,tsx}",
-    "./components/**/*.{ts,tsx}",
-    "./pages/**/*.{ts,tsx}",
+    "./src/app/**/*.{ts,tsx}",       // all pages and layouts
+    "./src/components/**/*.{ts,tsx}", // components
+    "./src/lib/**/*.{ts,tsx}",        // optional, if using TSX there
   ],
   theme: {
     container: {
