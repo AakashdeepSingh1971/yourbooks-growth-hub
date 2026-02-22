@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": [],
-  "sections": [
-    {"offset": {"line": 4, "column": 0}, "map": {"version":3,"sources":["file:///Users/pieinfosystem/Documents/Aakashdeep/projects/yourbooks/app/layout.tsx"],"sourcesContent":["import \"./globals.css\";\nimport type { Metadata } from \"next\";\n\nexport const metadata: Metadata = {\n  title: \"YourBooks – GST Accounting Software for India\",\n  description:\n    \"Cloud-based GST accounting & business management software for Indian businesses. Manage sales, purchase, inventory, banking & compliance.\",\n};\n\nexport default function RootLayout({\n  children,\n}: {\n  children: React.ReactNode;\n}) {\n  return (\n    <html lang=\"en\">\n      <body>{children}</body>\n    </html>\n  );\n}\n"],"names":[],"mappings":";;;;;;;;;AAGO,MAAM,WAAqB;IAChC,OAAO;IACP,aACE;AACJ;AAEe,SAAS,WAAW,EACjC,QAAQ,EAGT;IACC,qBACE,8OAAC;QAAK,MAAK;kBACT,cAAA,8OAAC;sBAAM;;;;;;;;;;;AAGb"}},
-    {"offset": {"line": 37, "column": 0}, "map": {"version":3,"sources":["file:///Users/pieinfosystem/Documents/Aakashdeep/projects/yourbooks/node_modules/next/src/server/route-modules/app-page/vendored/rsc/react-jsx-dev-runtime.ts"],"sourcesContent":["module.exports = (\n  require('../../module.compiled') as typeof import('../../module.compiled')\n).vendored['react-rsc']!.ReactJsxDevRuntime\n"],"names":["module","exports","require","vendored","ReactJsxDevRuntime"],"mappings":"AAAAA,OAAOC,OAAO,GACZC,QAAQ,4HACRC,QAAQ,CAAC,YAAY,CAAEC,kBAAkB","ignoreList":[0]}}]
-}
