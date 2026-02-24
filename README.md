@@ -1,36 +1,66 @@
-# YourBooks Admin & Public App
 
-This is a **Next.js 13+ project** for managing book-related contact requests and admin functionality, with a focus on **logging fallback data** if the database fails.
+
+# 📚 YourBooks Admin & Public App
+
+A **Next.js 13+ (App Router)** application for managing public contact requests and secure admin functionality, with a **database-first + file fallback logging system** to prevent data loss.
 
 ---
 
-## **Project Structure**
+# 📑 Table of Contents
+
+1. [Project Overview](#project-overview)
+2. [Project Structure](#project-structure)
+3. [Environment Variables](#environment-variables)
+4. [Features](#features)
+
+   * Contact Form Submission
+   * Admin Dashboard
+   * Logging System
+   * Middleware & Authentication
+   * UI / Styling
+5. [Database Schema](#database-schema)
+6. [Running the Project (Development)](#running-the-project-development)
+7. [Running in Production (PM2)](#running-in-production-pm2)
+8. [Contact Submission Flow](#contact-submission-flow)
+9. [Screenshots](#screenshots)
+10. [Important Notes](#important-notes)
+
+---
+
+# 📌 Project Overview
+
+This project provides:
+
+* A **public contact form**
+* A secure **Admin dashboard**
+* A **database-first logging strategy**
+* Automatic **fallback file logging if DB fails**
+* JWT-based authentication
+* Middleware route protection
+
+The system ensures **zero data loss** for contact submissions.
+
+---
+
+# 📁 Project Structure
 
 ```
-📁yourbooks
+📁 yourbooks
  ├─ app
  │   ├─ (legal)
  │   │   ├─ cancellation-refund-policy/page.tsx
  │   │   ├─ privacy-policy/page.tsx
  │   │   └─ layout.tsx
  │   ├─ admin
- │   │   ├─ contact/page.tsx         # Admin dashboard for contact requests
- │   │   ├─ logs/page.tsx            # Admin view for server logs
+ │   │   ├─ contact/page.tsx
+ │   │   ├─ logs/page.tsx
  │   │   └─ layout.tsx
  │   ├─ api
  │   │   ├─ auth
- │   │   │   ├─ login/route.ts
- │   │   │   ├─ logout/route.ts
- │   │   │   ├─ reset-password/route.ts
- │   │   │   └─ change-password/route.ts
- │   │   ├─ contact/route.ts         # Handles form submissions & DB logging
- │   │   ├─ logs/route.ts            # Serves server-side log file to admin
+ │   │   ├─ contact/route.ts
+ │   │   ├─ logs/route.ts
  │   │   └─ system/log/route.ts
- │   ├─ assets
  │   ├─ components
- │   │   ├─ Navbar.tsx
- │   │   ├─ ContactSection.tsx
- │   │   └─ ui (Tailwind components)
  │   ├─ hooks
  │   ├─ lib
  │   │   ├─ audit.ts
@@ -41,15 +71,16 @@ This is a **Next.js 13+ project** for managing book-related contact requests and
  │   ├─ layout.tsx
  │   └─ middleware.ts
  ├─ public
+ ├─ ecosystem.config.js
  ├─ .env.local
  └─ package.json
 ```
 
 ---
 
-## **Environment Variables**
+# 🔐 Environment Variables
 
-Create a `.env.local` file at the project root:
+Create `.env.local` at project root:
 
 ```env
 # Database
@@ -59,77 +90,95 @@ DB_PASSWORD=your_password_here
 DB_NAME=YourbooksQuery
 DB_PORT=3306
 
-# JWT secret
+# JWT
 JWT_SECRET=your_super_secret_key
 
-# Public base URL (for fetch calls)
-NEXT_PUBLIC_BASE_URL=http://localhost:3000
+
 ```
 
 ---
 
-## **Features**
+# 🚀 Features
 
-### **1. Contact Form Submission**
+---
 
-- Users can submit a contact form.
-- **Database first**: Tries to insert into `contact_requests` table.
-- **Fallback**: If DB connection fails, saves request to `contact_fallback.log` in project root.
-- API always returns `success: true` to the client, so user experience is uninterrupted.
+## 1️⃣ Contact Form Submission
 
-**Example log entry**:
+* Public users submit contact form.
+* API route: `/api/contact`
+* **Primary storage:** `contact_requests` table
+* **Fallback storage:** `contact_fallback.log` (JSON lines)
+
+If DB fails:
+
+* Submission is written to `contact_fallback.log`
+* API still returns `{ success: true }`
+* User experience is uninterrupted
+
+### Example Fallback Log Entry
 
 ```json
 {
-	"name": "Jane Smith",
-	"email": "janesmith@example.com",
-	"mobile": "9876543210",
-	"message": "Interested in books",
-	"created_at": "2026-02-22T17:01:27.676Z",
-	"error": "Access denied for user 'root'@'localhost' (using password: YES)"
+  "name": "Jane Smith",
+  "email": "janesmith@example.com",
+  "mobile": "9876543210",
+  "message": "Interested in books",
+  "created_at": "2026-02-22T17:01:27.676Z",
+  "error": "Access denied for user 'root'@'localhost'"
 }
 ```
 
 ---
 
-### **2. Admin Dashboard**
+## 2️⃣ Admin Dashboard
 
-- **Route:** `/admin/contact`
-  - Displays **contact requests** from the DB.
-  - Empty state shown if no requests.
-  - Shows **Name, Email, Mobile, Date** in a responsive table.
+### `/admin/contact`
 
-- **Route:** `/admin/logs`
-  - Displays **fallback logs** when DB insert fails.
-  - Reads from `contact_fallback.log`.
-  - Shows each field including error message and timestamp.
-  - Empty state if no logs.
+* Displays DB contact entries
+* Responsive table
+* Empty state supported
 
-- **Admin Authentication**:
-  - JWT stored in `admin_token` cookie.
-  - Middleware (`middleware.ts`) protects `/admin/*` routes.
-  - Redirects unauthorized users to `/login`.
+### `/admin/logs`
 
----
+* Reads from `contact_fallback.log`
+* Shows fallback entries with error messages
+* Empty state if no logs
 
-### **3. Logging System**
+### Authentication
 
-- **Database fails → Fallback file logging**
-  - Contact submissions are saved to `contact_fallback.log` using JSON lines (`\n` separated).
-  - Admins can view logs in `/admin/logs`.
-  - Example log file path: `yourbooks/contact_fallback.log`
-
-- **Audit Logs**
-  - Admin actions like login/logout can optionally be logged in `audit_logs` table (via `lib/audit.ts`).
+* JWT stored in `admin_token` cookie
+* Middleware protects `/admin/*`
+* Unauthorized users redirected to `/login`
 
 ---
 
-### **4. Middleware**
+## 3️⃣ Logging System
 
-- **JWT validation** for admin routes.
-- Checks for `admin_token` cookie.
-- Redirects unauthorized access to `/login`.
-- Public routes (login, reset-password) are ignored by middleware.
+### Database First Strategy
+
+```
+Try DB insert
+   ↓
+If fail → Write to contact_fallback.log
+```
+
+### Audit Logging
+
+Admin actions (login/logout) can be stored in:
+
+```
+audit_logs table
+```
+
+via `lib/audit.ts`
+
+---
+
+## 4️⃣ Middleware & Route Protection
+
+* Validates JWT
+* Protects admin routes
+* Public routes excluded:
 
 ```ts
 const PUBLIC_ROUTES = ["/login", "/reset-password"];
@@ -137,27 +186,19 @@ const PUBLIC_ROUTES = ["/login", "/reset-password"];
 
 ---
 
-### **5. Admin Features**
+## 5️⃣ UI / Styling
 
-- Login with username/password.
-- Logout button in Navbar.
-- Admin-only links: Dashboard, Logs.
-- Desktop & mobile support with responsive Navbar.
-
----
-
-### **6. UI / Styling**
-
-- TailwindCSS with custom components in `components/ui`.
-- Tables, buttons, cards, toast notifications, etc.
-- Consistent design for public pages, contact form, and admin dashboard.
+* TailwindCSS
+* Reusable UI components
+* Responsive admin dashboard
+* Toast notifications
+* Consistent layout structure
 
 ---
 
-### **7. Database Tables**
+# 🗄 Database Schema
 
 ```sql
--- Contact Requests
 CREATE TABLE IF NOT EXISTS contact_requests (
   id INT AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(255) NOT NULL,
@@ -167,7 +208,6 @@ CREATE TABLE IF NOT EXISTS contact_requests (
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Users
 CREATE TABLE IF NOT EXISTS users (
   id INT AUTO_INCREMENT PRIMARY KEY,
   username VARCHAR(100) NOT NULL UNIQUE,
@@ -176,7 +216,6 @@ CREATE TABLE IF NOT EXISTS users (
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Audit Logs
 CREATE TABLE IF NOT EXISTS audit_logs (
   id INT AUTO_INCREMENT PRIMARY KEY,
   user_id INT,
@@ -187,80 +226,113 @@ CREATE TABLE IF NOT EXISTS audit_logs (
 
 ---
 
-### **8. Running the Project**
+# 🧪 Running the Project (Development)
 
 ```bash
-# Install dependencies
 npm install
-
-# Run dev server
 npm run dev
+```
 
-# Open in browser
+Open:
+
+```
 http://localhost:3000
 ```
 
 ---
 
-### **9. Important Notes**
+# 🏭 Running in Production (PM2)
 
-1. If **DB connection fails**, submissions will still be saved in `contact_fallback.log`.
-2. Admin can view logs anytime via `/admin/logs`.
-3. JWT secret must be set in `.env.local` for authentication to work.
-4. Logging fallback ensures **no data loss** for contact requests.
-5. Passwords and sensitive info should **never be committed** to git.
+This project supports PM2 process management.
+
+Example `ecosystem.config.js`:
+
+```js
+module.exports = {
+  apps: [
+    {
+      name: "yourbooks-next",
+      script: "npm",
+      args: "start -- -p 3010",
+      instances: 1,
+      autorestart: true,
+      watch: false,
+      max_memory_restart: "500M",
+      env: {
+        NODE_ENV: "production",
+      },
+    },
+  ],
+};
+```
+
+### Production Steps
+
+```bash
+npm install
+npm run build
+pm2 start ecosystem.config.js
+pm2 save
+```
+
+App runs on:
+
+```
+http://localhost:3010
+```
+
+To expose publicly:
+
+* Use reverse proxy (Nginx)
+* Or use Cloudflare Tunnel
 
 ---
 
-### **10. Contact Submission Flow**
+# 🔄 Contact Submission Flow
 
 ```mermaid
 flowchart TD
     A[User submits contact form] --> B{Database available?}
-    B -- Yes --> C[Insert into contact_requests table]
-    B -- No --> D[Write submission to contact_fallback.log]
-    C --> E[Success response to user]
-    D --> E[Success response to user]
-    E --> F[Admin views /admin/contact page]
-    D --> G[Admin views /admin/logs page]
+    B -- Yes --> C[Insert into contact_requests]
+    B -- No --> D[Write to contact_fallback.log]
+    C --> E[Return success]
+    D --> E[Return success]
+    C --> F[Admin views /admin/contact]
+    D --> G[Admin views /admin/logs]
 ```
-
-**Explanation:**
-
-1. User submits contact form → hits `/api/contact`.
-2. Database check:
-   - ✅ If DB works → save in `contact_requests`.
-   - ❌ If DB fails → save JSON entry in `contact_fallback.log`.
-3. Always return `success: true` to user → ensures smooth UX.
-4. Admin dashboard:
-   - `/admin/contact` → shows successful DB entries.
-   - `/admin/logs` → shows fallback log entries including errors and timestamps.
 
 ---
 
-### **11. Screenshots**
+# 📸 Screenshots
 
-#### Server Logs — With Fallback Entries
-
-When the database is unavailable, contact submissions are captured in the fallback log and displayed in the admin logs view:
+### Server Logs — With Fallback Entries
 
 ![Server Logs with data](./public/server_logs_with_data.png)
 
-#### Server Logs — Empty State
-
-When no fallback logs exist (database is working normally), the logs page shows an empty state:
+### Server Logs — Empty State
 
 ![Server Logs empty state](./public/server_logs_empty.png)
 
 ---
 
-This README covers:
+# ⚠ Important Notes
 
-- Project structure
-- Env setup
-- Logging system & fallback
-- Admin features (contact table + logs)
-- Middleware + JWT
-- UI details
-- Contact submission flow diagram
-- Admin dashboard screenshots
+1. If DB fails → data is never lost.
+2. Fallback logs are stored as JSON lines.
+3. JWT_SECRET must be set.
+4. Do not commit `.env.local`.
+5. Always run `npm run build` before production start.
+6. Use HTTPS in production.
+
+---
+
+# ✅ Summary
+
+This system provides:
+
+* Secure admin authentication
+* Reliable contact request handling
+* Automatic database fallback logging
+* Production-ready PM2 setup
+* Clean UI and structured architecture
+* Zero data loss guarantee for submissions
