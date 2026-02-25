@@ -1,5 +1,5 @@
 {
-  "name": "yourbooks-next",
+  "name": "onepage-yourbooks",
   "private": true,
   "scripts": {
     "dev": "next dev",

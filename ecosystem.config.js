@@ -1,9 +1,9 @@
 module.exports = {
 	apps: [
 		{
-			name: "yourbooks-next",
+			name: "onepage-yourbooks",
 			script: "node_modules/next/dist/bin/next",
-			args: "start -- -p 3010",
+			args: "start -p 3010",
 			instances: 1,
 			autorestart: true,
 			max_memory_restart: "500M",
